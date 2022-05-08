@@ -6,6 +6,10 @@ The data set can be found/downloaded here: https://archive.ics.uci.edu/ml/datase
 The data set contains all the transactions for a UK-based and registered non-store online retail that occured between December 01/12/2010 and 09/12/2010. The products that are sold by the company are mainly unique all-occassion gifts.
 
 # Outcomes
+K-Means was chosen as the clustering algorithm since it is particulary suitable for big data sets. The disadvantage of K-Means of course is that an ideal number of clusters is not automatically determined. Within a range of seven experimentally chosen clusters four seems to offer the best trade-off between the minimal squared residuales within a cluster and the interpretability of the clusters.
+
+Under an ideal cluster number of four the data set would be clustered in the following way:
+
 Customers of cluster 1 seem to be customers with a relatively recent purchasing history, those customers also seem to buy relatively frequently and also to spend more. 
 
 Customers belonging to clusters 0 and 2 are customers whose purchasing history lies somewhere in the middle. The distinguishing factor between the two clusters is frequency. Customers belonging to cluster 2 purchase less frequently, customers belonging to cluster 0 however have a higher purchasing frequency. Customers from both clusters seem to spend equally.

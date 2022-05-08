@@ -1,9 +1,10 @@
-# Python version 3 or higher
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*- 
 """
 @author: Javad Mousavi Nia (Javad29)
 """
 
+import sys
 import os
 import math
 import datetime
@@ -15,14 +16,16 @@ from tabulate import tabulate
 
 ## Checking whether data set exists:
 
-if os.path.exists('datensatz online retail.xlsx'):
+if os.path.exists('Online Retail.xlsx'):
     print('Data set exists')
 else:
     print('Data set does not exist and can be downloaded from: https://archive.ics.uci.edu/ml/datasets/Online+Retail')
+    sys.exit(1)
 
 ## Loading the data set:
 
-data_df=pd.read_excel(io=r'datensatz online retail.xlsx')  
+print('Loading data ...')
+data_df=pd.read_excel(io=r'Online Retail.xlsx', engine='openpyxl')    
                                                          
 ## Data analysis:
 
@@ -64,7 +67,7 @@ data_gb_df=data_df[data_df.Country=="United Kingdom"]
 
 print(data_gb_df.head())
 
-data_gb_df["Revenue"]=data_df.UnitPrice*data_df.Quantity
+data_gb_df["Revenue"]=data_gb_df.UnitPrice*data_gb_df.Quantity
 
 data_gb_df_first_five=data_gb_df.head()
 
@@ -105,14 +108,14 @@ data_gb_df['Recency']=data_gb_df['days_since_last_purchase'].astype('timedelta64
 print(f'The column "days_since_last_purchase" has been changed into a numerical column Recency'
 f'{tabulate(data_gb_df.loc[:,["Recency"]].head(), headers="keys", tablefmt="psql")}')
 
-customer_history_df=data_gb_df.groupby("CustomerID").min().reset_index()[["CustomerID", "Recency"]]
+customer_history_df=data_gb_df.groupby("CustomerID").min("CustomerID").reset_index()[["CustomerID", "Recency"]]
 
 print(f'A new data frame customer_history_df was created:'
 f'{tabulate(customer_history_df.head(), headers="keys", tablefmt="psql")}')
 
-customer_monetray_val=data_gb_df[['CustomerID', 'Revenue']].groupby('CustomerID').sum().reset_index()
+customer_monetary_val=data_gb_df[['CustomerID', 'Revenue']].groupby('CustomerID').sum().reset_index()
 
-customer_history_df=customer_history_df.merge(customer_monetray_val, how='outer')
+customer_history_df=customer_history_df.merge(customer_monetary_val, how='outer')
 customer_history_df.Revenue=customer_history_df.Revenue+0.001
 
 print(f"The monetary value of a customer (sum of the customer's genereated revenue) has been joined with customer_history_df:"
